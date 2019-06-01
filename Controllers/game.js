@@ -3,6 +3,7 @@ const general = require('./general')
 const output = require('./stringOutput')
 const g = require('generatorics')
 const {prompt} = require('inquirer');
+const chalk = require('chalk');
 hintOptions = [
 {
     getRandomPermutation : (word) => {
@@ -82,7 +83,7 @@ exports.gameOptions = async (res, word, synonym, synonyms) => {
                 catch(error) {
                     console.log(error);
                 }
-                verdict = 'The word was '+ word + '\n'+ output.outputFullDict(fullDict);
+                verdict = chalk.bold.magenta('The word is ')+ chalk.italic(word) + '\n\n'+ output.outputFullDict(fullDict);
                 break;
         }
 

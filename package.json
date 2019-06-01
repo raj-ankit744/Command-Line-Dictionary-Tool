@@ -11,7 +11,7 @@
   "author": "Ankit Raj Gupta",
   "license": "ISC",
   "dependencies": {
-    "chalk-pipe": "^2.0.0",
+    "chalk": "^2.4.2",
     "commander": "^2.20.0",
     "generatorics": "^1.1.0",
     "inquirer": "^6.3.1",
