@@ -4,19 +4,19 @@ exports.options = {
     definition : async function(word) {
         try{
             let res = await request(`${cnf.CONFIG.API_HOST}/word/${word}/definitions?api_key=${cnf.CONFIG.API_KEY}`);
-            return {"definition":JSON.parse(res)};
+            return {"definitions":JSON.parse(res)};
         }
         catch(error) {
-            console.log("Something went wrong while fetching data!")
+            console.log("Something went wrong while fetching data from definition!")
         }
     },
     randomWord : async function() {
         try{
             let res = await request(`${cnf.CONFIG.API_HOST}/words/randomWord?api_key=${cnf.CONFIG.API_KEY}`);
-            return JSON.parse(res);
+            return JSON.parse(res).word;
         }
         catch(error) {
-            console.log("Something went wrong while fetching data!")
+            console.log("Something went wrong while fetching data from randomWord!")
         }
     },
     examples : async function(word) {
@@ -25,39 +25,39 @@ exports.options = {
             return JSON.parse(res);
         }
         catch(error) {
-            console.log("Something went wrong while fetching data!")
+            console.log("Something went wrong while fetching data from examples!")
         }
     },
     synonym : async function(word, relation) {
         try{
             let relatedWords = await request(`${cnf.CONFIG.API_HOST}/word/${word}/relatedWords?api_key=${cnf.CONFIG.API_KEY}`);
             relatedWords = JSON.parse(relatedWords);
-            let res = {};
+            let res = [];
             relatedWords.forEach((word) => {
                 if(word.relationshipType && word.relationshipType == 'synonym'){
                     res = word.words;
                 }
             });
-            return {"synonym":res};
+            return {"synonyms":res};
         }
         catch(error) {
-            console.log("Something went wrong while fetching data!")
+            console.log("Something went wrong while fetching data from synonym!")
         }
     },
     antonym : async function(word, relation) {
         try{
             let relatedWords = await request(`${cnf.CONFIG.API_HOST}/word/${word}/relatedWords?api_key=${cnf.CONFIG.API_KEY}`);
             relatedWords = JSON.parse(relatedWords);
-            let res = {};
+            let res = [];
             relatedWords.forEach((word) => {
                 if(word.relationshipType && word.relationshipType == 'antonym'){
                     res = word.words;
                 }
             });
-            return {"antonym":res};
+            return {"antonyms":res};
         }
         catch(error) {
-            console.log("Something went wrong while fetching data!")
+            console.log("Something went wrong while fetching data from antonym!")
         }
     },
 
@@ -71,25 +71,25 @@ exports.options = {
             return res;
         }
         catch(error){
-            console.log(error);
+            console.log("Something went wrong while fetching data from fullDict!");
         }
     },
     wordOfTheDay : async function() {
         try{
             let res1 = await this.randomWord();
-            if(res1.word)
-                res2 = await this.fullDict(res1.word);
-            return {"Word of the day":res1.word,res2};
+            if(res1)
+                res2 = await this.fullDict(res1);
+            return {"Word of the day":res1,res2};
         }
         catch(error){
-            console.log(error);
+            console.log("Something went wrong while fetching data from wordofTheDay!");
         }
     }
 };
 
 /* a = async function() {
     try{
-        let res = await options.wordOfTheDay('single');
+        let res = await exports.options.wordOfTheDay('single');
         console.log(typeof(res));
         console.log(res);
     }

@@ -1,5 +1,7 @@
 #!/usr/bin/env node
-const  routes = require('./Services/service');
+const  genController = require('./Controllers/general');
+const gameController = require('./Controllers/game');
+const output = require('./Controllers/stringOutput');
 const program = require('commander')
 
 program
@@ -10,21 +12,63 @@ program
     .action(async (option, word) => {
         let res = {};
         switch(option) {
-            case 'def' : res = await routes.options.definition(word);
+            case 'def' : try {
+                res = await genController.getDefinitions(word);
+            }
+            catch(error) {
+                console.log(error);
+            }
             break;
-            case 'syn' : res = await routes.options.synonym(word);
+            case 'syn' : try {
+                res = await genController.getSynonyms(word);
+            }
+            catch(error) {
+                console.log(error);
+            }
             break;
-            case 'ant' : res = await routes.options.antonym(word);
+            case 'ant' : try {
+                res = await genController.getAntonyms(word);
+            }
+            catch(error) {
+                console.log(error);
+            }
             break;
-            case 'ex'  : res = await routes.options.examples(word);
+            case 'ex'  : try {
+                es = await genController.getExamples(word);
+            }
+            catch(error) {
+                console.log(error);
+            }
             break;
-            case 'dict': res = await routes.options.fullDict(word);
+            case 'dict': try {
+                res = await genController.getFullDict(word);
+            }
+            catch(error) {
+                console.log(error);
+            }
             break;
-            default    : 
+            case 'play': try {
+                res = await gameController.playGame();
+            }
+            catch(error) {
+                console.log(error);
+            }
+            break;
+            default    :
                          if(!option)
-                            res = await routes.options.wordOfTheDay();
+                            try {
+                                res = await genController.getWordOfTheDay();
+                            }
+                            catch(error) {
+                                console.log(error);
+                            }
                          else
-                            res = await routes.options.fullDict(option);
+                            try {
+                                res = output.outputFullDict(await genController.getFullDict(option));
+                            }
+                            catch(error) {
+                                console.log(error);
+                            }
         };
         console.log(res);
     });

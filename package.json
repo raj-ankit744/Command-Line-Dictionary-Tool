@@ -1,17 +1,20 @@
 {
   "name": "dict",
   "version": "1.0.0",
-  "description": "learning",
+  "description": "A command line dictionary tool using fourtytwowords api api in node.js. Provides various commands to interact with dictionary. And a word game to play !",
   "preferGlobal": true,
   "bin": "./dict",
   "main": "dict",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "Ankit Raj Gupta",
   "license": "ISC",
   "dependencies": {
+    "chalk-pipe": "^2.0.0",
     "commander": "^2.20.0",
+    "generatorics": "^1.1.0",
+    "inquirer": "^6.3.1",
     "request": "^2.88.0",
     "request-promise-native": "^1.0.7"
   }
