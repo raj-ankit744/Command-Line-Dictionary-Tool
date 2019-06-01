@@ -10,38 +10,38 @@ program
 program
     .arguments('[option] [word]')
     .action(async (option, word) => {
-        let res = {};
+        let res = '';
         switch(option) {
             case 'def' : try {
-                res = await genController.getDefinitions(word);
+                res = output.outputDefinition(await genController.getDefinitions(word));
             }
             catch(error) {
                 console.log(error);
             }
             break;
             case 'syn' : try {
-                res = await genController.getSynonyms(word);
+                res = output.outputSynonym(await genController.getSynonyms(word));
             }
             catch(error) {
                 console.log(error);
             }
             break;
             case 'ant' : try {
-                res = await genController.getAntonyms(word);
+                res = output.outputAntonym(await genController.getAntonyms(word));
             }
             catch(error) {
                 console.log(error);
             }
             break;
             case 'ex'  : try {
-                es = await genController.getExamples(word);
+                res = output.outputExamples(await genController.getExamples(word));
             }
             catch(error) {
                 console.log(error);
             }
             break;
             case 'dict': try {
-                res = await genController.getFullDict(word);
+                res = output.outputFullDict(await genController.getFullDict(word));
             }
             catch(error) {
                 console.log(error);
@@ -57,7 +57,7 @@ program
             default    :
                          if(!option)
                             try {
-                                res = await genController.getWordOfTheDay();
+                                res = output.outputWordOfTheDay(await genController.getWordOfTheDay());
                             }
                             catch(error) {
                                 console.log(error);

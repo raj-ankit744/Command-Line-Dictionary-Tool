@@ -3,7 +3,31 @@ const general = require('./general')
 const output = require('./stringOutput')
 const g = require('generatorics')
 const {prompt} = require('inquirer');
-
+hintOptions = [
+{
+    getRandomPermutation : (word) => {
+        return 'The word is hidden in the jumble - '+g.shuffle(word.split('')).join('')+'\n';
+    }
+},
+{
+    getSynonym : async (word) => {
+        let res = await general.getSynonym(word);
+        return res != ''?'The word has an synonym - ' + res:res;
+    }
+},
+{
+    getAntonym : async (word) => {
+        let res = await general.getAntonym(word);
+        return res != ''?'The word has an antonym - ' + res:res;
+    }
+},
+{
+    getDefinition : async (word) => {
+        let res = await general.getDefinition(word);
+        return res != ''?'Alternative definition for the word - '+res:res;
+    }
+}
+];
 exports.gameOptions = async (res, word, synonym, synonyms) => {
     if(res.start == word || (res != synonym && synonyms.synonyms.includes(res.start)))
         verdict = "Great! The word is correct";
@@ -30,7 +54,16 @@ exports.gameOptions = async (res, word, synonym, synonyms) => {
                 }
                 break;
             case '2': try {
-                resHint = await prompt([{type: 'input', name: 'start', message: 'The answer is hidden in the jumble - '+g.shuffle(word.split('')).join('')+'\n'}]);
+                let msg = '';
+                while(msg == '') {
+                    rand_idx = Math.floor(Math.random() * hintOptions.length);
+                    if(rand_idx == 0){
+                        msg = hintOptions[0].getRandomPermutation(word);
+                        break;
+                    }
+                    msg = await hintOptions[rand_idx][Object.keys(hintOptions[rand_idx])[0]](word);
+                }
+                resHint = await prompt([{type: 'input', name: 'start', message: msg+'\n'}]);
             }
             catch(error) {
                 console.log(error);
@@ -49,7 +82,7 @@ exports.gameOptions = async (res, word, synonym, synonyms) => {
                 catch(error) {
                     console.log(error);
                 }
-                verdict = 'The word was:'+ word + '\n'+ output.outputFullDict(fullDict);
+                verdict = 'The word was '+ word + '\n'+ output.outputFullDict(fullDict);
                 break;
         }
 
@@ -88,7 +121,11 @@ exports.playGame = async () => {
         console.log(error);
     }
     try {
-        res = await prompt([{type: 'input', name:'start', message:'Hi. Please Enter a word. Hints are given below.\nDefinition - '+ definition + '\nSynonym - '+synonym+"\nAntonym - "+antonym+"\n"}]);
+        let def = definition != ''?'Definition - ' + definition:'';
+        let syn = synonym != ''?'\nSynonym - ' + synonym:'';
+        let ant = antonym != ''?'\nAntonym - ' + antonym:'';
+
+        res = await prompt([{type: 'input', name:'start', message:'Hi. Please Enter a word. Hints are given below.\n'+ def  + syn + ant + "\n"}]);
     }
     catch (error) {
         console.log(error);

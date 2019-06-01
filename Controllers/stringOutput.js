@@ -16,5 +16,44 @@ exports.outputFullDict = (fullDict) => {
         });
     }
     return res;
-    
+};
+
+exports.outputDefinition = (definition) => {
+    let res = '';
+    if(definition.definitions.length) {
+        definition.definitions.forEach((def, index) => {
+            res += 'Definition '+index+1+ ' - '+def.text+'\n';
+        });
+    }
+    return res;
+};
+
+exports.outputSynonym = (synonym) => {
+    let res = '';
+    if(synonym.synonyms.length)
+        res +='Synonyms - '+synonym.synonyms.join(', ')+'\n';
+    return res;
+};
+
+exports.outputAntonym = (antonym) => {
+    let res = '';
+    if(antonym.antonyms.length)
+        res +='Antonyms - '+antonym.antonyms.join(', ')+'\n';
+    return res;
+};
+
+exports.outputWordOfTheDay = (wordOfTheDay) => {
+    let res = '';
+    res += 'The Word of the day is ' + wordOfTheDay['Word of the day'] +'\n' + exports.outputFullDict(wordOfTheDay.fullDict);
+    return res;
+};
+
+exports.outputExamples = (example) => {
+    let res = '';
+    if(example.examples.length) {
+        example.examples.forEach((ex, index) => {
+            res += 'Definition '+index+1+ ' - '+ex.text+'\n';
+        });
+    }
+    return res;
 }

@@ -14,8 +14,11 @@ exports.getDefinition = async (word) => {
 
     let res = await service.options.definition(word);
     let size = res.definitions.length;
-    let rand_idx = Math.floor(Math.random() * size);
-    return res.definitions[rand_idx].text;
+    if(size > 0) {
+        let rand_idx = Math.floor(Math.random() * size);
+        return res.definitions[rand_idx].text;
+    }
+    return '';
 };
 
 exports.getRandomWord = async (word) => {
@@ -64,8 +67,11 @@ exports.getSynonym = async (word) => {
     try {
         let res = await service.options.synonym(word);
         let size = res.synonyms.length;
-        let rand_idx = Math.floor(Math.random() * size);
-        return res.synonyms[rand_idx];
+        if(size > 0) {
+            let rand_idx = Math.floor(Math.random() * size);
+            return res.synonyms[rand_idx];
+        }
+        return '';
     }
     catch(error) {
         console.log(error);
@@ -85,8 +91,11 @@ exports.getAntonym = async (word) => {
     try {
         let res = await service.options.antonym(word);
         let size = res.antonyms.length;
-        let rand_idx = Math.floor(Math.random() * size);
-        return res.antonyms[rand_idx];
+        if(size > 0){
+            let rand_idx = Math.floor(Math.random() * size);
+            return res.antonyms[rand_idx];
+        }
+        return '';
     }
     catch(error) {
         console.log(error);
@@ -115,12 +124,13 @@ exports.getWordOfTheDay = async (word) => {
 
 /* a = async function() {
     try{
-        let res = await exports.getFullDict('wheel');
-        output.outputFullDict(res);
+        let res = await exports.getAntonym('wheel');
+        console.log(res);
     }
     catch(error) {
         console.log(error);
     }
 
 }
-a(); */
+a();
+ */

@@ -79,7 +79,7 @@ exports.options = {
             let res1 = await this.randomWord();
             if(res1)
                 res2 = await this.fullDict(res1);
-            return {"Word of the day":res1,res2};
+            return {"Word of the day":res1,fullDict:res2};
         }
         catch(error){
             console.log("Something went wrong while fetching data from wordofTheDay!");
@@ -87,7 +87,7 @@ exports.options = {
     }
 };
 
-/* a = async function() {
+ /* a = async function() {
     try{
         let res = await exports.options.wordOfTheDay('single');
         console.log(typeof(res));
@@ -98,4 +98,4 @@ exports.options = {
     }
 
 }
-a(); */
+a();  */
