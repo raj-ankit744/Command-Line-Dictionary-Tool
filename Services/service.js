@@ -63,14 +63,11 @@ exports.options = {
 
     fullDict : async function(word) {
         try{
-            let res1 = await this.definition(word);
-            let res2 = await this.synonym(word);
-            let res3 = await this.antonym(word);
-            let res4 = await this.examples(word);
-            let res = [res1, res2, res3, res4];
+            let res = [res1, res2, res3, res4] = await Promise.all([this.definition(word), this.synonym(word), this.antonym(word), this.examples(word)]);
             return res;
         }
         catch(error){
+            
             console.log("Something went wrong while fetching data from fullDict!");
         }
     },

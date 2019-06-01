@@ -91,31 +91,8 @@ exports.gameOptions = async (res, word, synonym, synonyms) => {
 };
 exports.playGame = async () => {
     try {
-        word =  await general.getRandomWord();
-    }
-    catch(error) {
-        console.log(error);
-    }
-    try {
-        definition = await general.getDefinition(word);
-    }
-    catch(error) {
-        console.log(error);
-    }
-    try {
-        synonym = await general.getSynonym(word);
-    }
-    catch(error) {
-        console.log(error);
-    }
-    try {
-        synonyms = await general.getSynonyms(word);
-    }
-    catch(error) {
-        console.log(error);
-    }
-    try {
-        antonym = await general.getAntonym(word);
+        word = await general.getRandomWord();
+        [definition, synonym, synonyms, antonym] =  await Promise.all([general.getDefinition(word), general.getSynonym(word), general.getSynonyms(word), general.getAntonym(word)]);
     }
     catch(error) {
         console.log(error);
