@@ -1,0 +1,31 @@
+#!/usr/bin/env node
+const  routes = require('./Services/service');
+const program = require('commander')
+
+program
+    .version('0.0.1')
+    .description('Dictionary Tool');
+program
+    .arguments('[option] [word]')
+    .action(async (option, word) => {
+        let res = {};
+        switch(option) {
+            case 'def' : res = await routes.options.definition(word);
+            break;
+            case 'syn' : res = await routes.options.synonym(word);
+            break;
+            case 'ant' : res = await routes.options.antonym(word);
+            break;
+            case 'ex'  : res = await routes.options.examples(word);
+            break;
+            case 'dict': res = await routes.options.fullDict(word);
+            break;
+            default    : 
+                         if(!option)
+                            res = await routes.options.wordOfTheDay();
+                         else
+                            res = await routes.options.fullDict(option);
+        };
+        console.log(res);
+    });
+program.parse(process.argv);
